@@ -38,9 +38,11 @@ class Player {
         this.perso.style.left = "25px";
         this.perso.style.width = "30px";
         this.perso.style.height = "30px";
-        this.perso.style.backgroundColor = "red";
-        this.perso.style.border = "solid 2px black";
-        this.perso.style.borderRadius = "20px";
+        this.perso.style.backgroundImage = "url(./images/player/mario2.png)";
+        this.perso.style.backgroundPosition = "center";
+        this.perso.style.backgroundSize = "contain";
+        this.perso.style.backgroundRepeat = "no-repeat";
+        this.perso.style.borderRadius = "10px";
         this.perso.style.transition = "0.3s";
         screen.appendChild(this.perso);
     }
@@ -60,11 +62,13 @@ class Player {
     movementRight() {
         this.perso.style.width = this.width('40px');
         this.perso.style.left = `${parseInt(this.perso.style.left) + speed}px`;
+        this.perso.style.transform = 'scaleX(1)';
     }
 
     movementLeft() {
         this.perso.style.width = this.width('40px');
         this.perso.style.left = `${parseInt(this.perso.style.left) - speed}px`;
+        this.perso.style.transform = 'scaleX(-1)';
     }
 
     jump() {
