@@ -49,33 +49,41 @@ class Player {
         return this.perso.style.bottom;
     }
 
+    height(height) {
+        return this.perso.style.height = height;
+    }
+
+    width(width) {
+        return this.perso.style.width = width;
+    }
+
     movementRight() {
-        this.perso.style.width = "40px";
+        this.perso.style.width = this.width('40px');
         this.perso.style.left = `${parseInt(this.perso.style.left) + speed}px`;
     }
 
     movementLeft() {
-        this.perso.style.width = "40px";
+        this.perso.style.width = this.width('40px');
         this.perso.style.left = `${parseInt(this.perso.style.left) - speed}px`;
     }
 
     jump() {
-        this.perso.style.height = '40px';
+        this.perso.style.height = this.height('40px');
         this.perso.style.bottom = `${parseInt(this.perso.style.bottom) + force}px`;
     }
 
     resetWidthRight() {
-        this.perso.style.width = "30px";
+        this.perso.style.width = this.height('30px');
         this.perso.style.left = `${parseInt(this.perso.style.left) + speed}px`;
     }
 
     resetWidthLeft() {
-        this.perso.style.width = "30px";
+        this.perso.style.width = this.width('30px');
         this.perso.style.left = `${parseInt(this.perso.style.left) - speed}px`;
     }
 
     resetHeight() {
-        this.perso.style.height = '30px';
+        this.perso.style.height = this.height('30px');
     }
 
     inertieAfterJumping() {
@@ -88,12 +96,11 @@ root.appendChild(screen);
 const perso = new Player();
 
 // Make the character move and jump!
+//stats for player
 const speed = 30;
 const force = 250;
 const inertie = 50;
 let onAir = false;
-
-PlayerManager();
 
 function PlayerManager() {
     document.addEventListener('keydown', (e) => {
@@ -123,6 +130,8 @@ document.addEventListener('keyup', (e) => {
             break;
     }
 })
+
+PlayerManager();
 
 setInterval(() => {
     if(parseInt(perso.jumpHeight) > 12) {
