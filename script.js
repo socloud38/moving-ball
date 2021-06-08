@@ -43,7 +43,6 @@ class Player {
         this.perso.style.borderRadius = "20px";
         this.perso.style.transition = "0.3s";
         screen.appendChild(this.perso);
-        console.log(this.perso);
     }
 
     get jumpHeight() {
