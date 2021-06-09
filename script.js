@@ -31,13 +31,18 @@ box.style.borderRadius = "5px";
 screen.appendChild(box);
 
 class Player {
-    constructor(perso) {
+    constructor() {
+        this.speed = 30;
+        this.force = 250;
+        this.inertie = 50;
+        this.onAir = false;
+
         this.perso = document.createElement('div');
         this.perso.style.position = "absolute";
         this.perso.style.bottom = "12px";
         this.perso.style.left = "25px";
-        this.perso.style.width = "30px";
-        this.perso.style.height = "30px";
+        this.perso.style.width = "50px";
+        this.perso.style.height = "50px";
         this.perso.style.backgroundImage = "url(./images/player/mario2.png)";
         this.perso.style.backgroundPosition = "center";
         this.perso.style.backgroundSize = "contain";
@@ -47,101 +52,40 @@ class Player {
         screen.appendChild(this.perso);
     }
 
-    get jumpHeight() {
-        return this.perso.style.bottom;
-    }
+    initialized() {
+        document.addEventListener('keydown', (e) => {
+            switch (e.keyCode) {
+                case 39:
+                    this.perso.style.left = `${parseInt(this.perso.style.left) + this.speed}px`;
+                    this.perso.style.transform = 'scaleX(1)';
+                    break;
+                case 37:
+                    this.perso.style.left = `${parseInt(this.perso.style.left) - this.speed}px`;
+                    this.perso.style.transform = 'scaleX(-1)';
+                    break;
+                case 32:
+                    if(!this.onAir) {
+                        this.perso.style.bottom = `${parseInt(this.perso.style.bottom) + this.force}px`;
+                        this.onAir = true;
+                    }
+                    break;
+            }
+        })
 
-    height(height) {
-        return this.perso.style.height = height;
-    }
-
-    width(width) {
-        return this.perso.style.width = width;
-    }
-
-    movementRight() {
-        this.perso.style.width = this.width('40px');
-        this.perso.style.left = `${parseInt(this.perso.style.left) + speed}px`;
-        this.perso.style.transform = 'scaleX(1)';
-    }
-
-    movementLeft() {
-        this.perso.style.width = this.width('40px');
-        this.perso.style.left = `${parseInt(this.perso.style.left) - speed}px`;
-        this.perso.style.transform = 'scaleX(-1)';
-    }
-
-    jump() {
-        this.perso.style.height = this.height('40px');
-        this.perso.style.bottom = `${parseInt(this.perso.style.bottom) + force}px`;
-    }
-
-    resetWidthRight() {
-        this.perso.style.width = this.height('30px');
-        this.perso.style.left = `${parseInt(this.perso.style.left) + speed}px`;
-    }
-
-    resetWidthLeft() {
-        this.perso.style.width = this.width('30px');
-        this.perso.style.left = `${parseInt(this.perso.style.left) - speed}px`;
-    }
-
-    resetHeight() {
-        this.perso.style.height = this.height('30px');
-    }
-
-    inertieAfterJumping() {
-        this.perso.style.bottom = `${parseInt(this.perso.style.bottom) - inertie }px`;
+        setInterval(() => {
+            if(parseInt(this.perso.style.bottom) > 12) {
+                this.perso.style.bottom = `${parseInt(this.perso.style.bottom) - this.inertie }px`;
+            } else {
+                this.onAir = false;
+            }
+        }, 100)
     }
 }
 
 root.appendChild(screen);
 
-const perso = new Player();
-
 // Make the character move and jump!
-//stats for player
-const speed = 30;
-const force = 250;
-const inertie = 50;
-let onAir = false;
+const perso = new Player();
+perso.initialized();
 
-function PlayerManager() {
-    document.addEventListener('keydown', (e) => {
-        switch (e.keyCode) {
-            case 39:
-                perso.movementRight();
-                break;
-            case 37:
-                perso.movementLeft();
-                break;
-            case 32:
-                if(!onAir) {
-                    perso.jump();
-                    onAir = true;
-                }
-                break;
-        }
-    })
-}
-document.addEventListener('keyup', (e) => {
-    switch (e.keyCode) {
-        case 39:
-            perso.resetWidthRight();
-            break;
-        case 37:
-            perso.resetWidthLeft();
-            break;
-    }
-})
 
-PlayerManager();
-
-setInterval(() => {
-    if(parseInt(perso.jumpHeight) > 12) {
-        perso.inertieAfterJumping();
-    } else {
-        perso.resetHeight();
-        onAir = false;
-    }
-}, 100)
